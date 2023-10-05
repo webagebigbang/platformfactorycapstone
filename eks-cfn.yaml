@@ -1,0 +1,36 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Amazon EKS - Cluster
+Resources:
+  EKSCluster:
+    Type: 'AWS::EKS::Cluster'
+    Properties:
+      Name: EKS-DEV #Any Name for the EKS Cluster
+      Version: '1.17' #Desired version of Kubernetes
+      RoleArn: arn:aws:iam::XXXXXXXXXXXXX:role/AWSServiceRoleForAmazonEKS
+      ResourcesVpcConfig:
+        SecurityGroupIds:
+          - sg-05dfcdcXXXXXXX # Security Group for Control Plane
+        SubnetIds:
+          - subnet-60XXXXXX #Choose minimum of two subnets for HA
+          - subnet-2bXXXXXX
+  EKSNodegroup:
+    Type: AWS::EKS::Nodegroup
+    Properties:
+      AmiType: AL2_x86_64
+      ClusterName: EKS-DEV # Provide the same cluster name as above
+      DiskSize: 20 #Root Device size as per requirement
+      ForceUpdateEnabled: true
+      InstanceTypes:
+        - t3.medium #choose required EC2 size
+      NodegroupName: eks-linuxnodegroup # Provide a suitable node group name
+      NodeRole: arn:aws:iam::XXXXXXXXXXXXX:role/eks-node-role
+      RemoteAccess:
+        Ec2SshKey: xyz-key #Mention a key pair name if you need to log into the worker nodes
+      ScalingConfig:
+        MinSize: 1 # Minimum number of nodes in worker group ASG
+        DesiredSize: 1 # Desired number of nodes in worker group ASG
+        MaxSize: 4 # Maximum number of nodes in worker group ASG
+      Subnets:
+        - subnet-60XXXXXX #Choose minimum of two subnets for HA
+        - subnet-2bXXXXXX
+    DependsOn: "EKSCluster" #Mention the same EKS Cluster resource name as above

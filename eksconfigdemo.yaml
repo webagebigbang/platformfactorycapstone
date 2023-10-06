@@ -1,0 +1,43 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: ${EKS_CLUSTER_NAME}
+  region: ${AWS_REGION}
+  version: "1.21"
+
+vpc:
+  subnets:
+    public:
+      ${PUBLIC_SUBNET_1}:
+        name: public-subnet-1
+      ${PUBLIC_SUBNET_2}:
+        name: public-subnet-2
+    private:
+      ${PRIVATE_SUBNET_1}:
+        name: private-subnet-1
+      ${PRIVATE_SUBNET_2}:
+        name: private-subnet-2
+
+iam:
+  withOIDC: true
+
+nodeGroups:
+  - name: ng-1
+    instanceType: t2.micro
+    desiredCapacity: 2
+    minSize: 1
+    maxSize: 3
+    keyName: ${KEY_PAIR_NAME}
+    iam:
+      instanceProfileName: ${INSTANCE_PROFILE_NAME}
+
+managedNodeGroups:
+  - name: mng-1
+    desiredCapacity: 2
+    instanceType: t3.micro
+    iam:
+      withAddonPolicies:
+        albIngress: true
+        autoScaler: true
+        ebs: true

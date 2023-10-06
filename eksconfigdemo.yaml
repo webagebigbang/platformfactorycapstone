@@ -5,8 +5,8 @@ metadata:
   name: ${EKS_CLUSTER_NAME}
   region: ${AWS_REGION}
   version: "1.26"
-
 vpc:
+  id: ${VPC_ID}
   subnets:
     public:
       ${PUBLIC_SUBNET_1}:

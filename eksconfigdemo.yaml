@@ -21,21 +21,17 @@ vpc:
 
 iam:
   withOIDC: true
-
-nodeGroups:
-  - name: ng-1
-    instanceType: t2.micro
-    desiredCapacity: 2
-    minSize: 1
-    maxSize: 3
-    keyName: ${KEY_PAIR_NAME}
-    iam:
-      instanceProfileName: ${INSTANCE_PROFILE_NAME}
-
+addons:
+  - name: aws-ebs-csi-driver
+    version: v1.18.0-eksbuild.1
+    attachPolicyARNs:
+      - arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy
 managedNodeGroups:
   - name: mng-1
-    desiredCapacity: 2
-    instanceType: t3.micro
+    desiredCapacity: 4
+    instanceType: m5.2xlarge
+     ssh:
+      allow: false
     iam:
       withAddonPolicies:
         albIngress: true

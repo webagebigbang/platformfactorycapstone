@@ -1,6 +1,5 @@
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
-
 metadata:
   name: ${EKS_CLUSTER_NAME}
   region: ${AWS_REGION}
@@ -18,7 +17,6 @@ vpc:
         name: private-subnet-1
       ${PRIVATE_SUBNET_2}:
         name: private-subnet-2
-
 iam:
   withOIDC: true
 addons:

@@ -38,6 +38,10 @@ aws ssm get-parameter --name "INSTANCE_PROFILE_NAME" --query "Parameter.Value" -
 export VPC_ID=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=your-vpc-name" --query 'Vpcs[0].VpcId' --output text)
 
 
+# Configuration file 
+
+
+
 
 # To run execute below
 

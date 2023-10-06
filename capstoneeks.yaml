@@ -14,6 +14,6 @@ addons:
 managedNodeGroups:
   - name: ng-1
     instanceType: m5.2xlarge
-    desiredCapacity: 3
+    desiredCapacity: 4
     ssh:
       allow: false

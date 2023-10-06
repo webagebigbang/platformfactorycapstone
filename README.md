@@ -40,45 +40,6 @@ export VPC_ID=$(aws ec2 describe-vpcs --filters "Name=tag:Name,Values=your-vpc-n
 
 # Configuration file 
 
-apiVersion: eksctl.io/v1alpha5
-kind: ClusterConfig
-
-metadata:
-  name: ${EKS_CLUSTER_NAME}
-  region: ${AWS_REGION}
-  version: "1.26"
-vpc:
-  id: ${VPC_ID}
-  subnets:
-    public:
-      ${PUBLIC_SUBNET_1}:
-        name: public-subnet-1
-      ${PUBLIC_SUBNET_2}:
-        name: public-subnet-2
-    private:
-      ${PRIVATE_SUBNET_1}:
-        name: private-subnet-1
-      ${PRIVATE_SUBNET_2}:
-        name: private-subnet-2
-
-iam:
-  withOIDC: true
-addons:
-  - name: aws-ebs-csi-driver
-    version: v1.18.0-eksbuild.1
-    attachPolicyARNs:
-      - arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy
-managedNodeGroups:
-  - name: mng-1
-    desiredCapacity: 4
-    instanceType: m5.2xlarge
-     ssh:
-      allow: false
-    iam:
-      withAddonPolicies:
-        albIngress: true
-        autoScaler: true
-        ebs: true
 
 
 # To run execute below

@@ -22,5 +22,5 @@ managedNodeGroups:
     iam:
       withAddonPolicies:
         albIngress: true
-        autoScaler: true
+        autoScaler: false
         ebs: true
